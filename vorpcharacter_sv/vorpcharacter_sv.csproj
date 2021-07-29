@@ -9,8 +9,8 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-    <AssemblyName>vorpcore_sv.net</AssemblyName>
-    <OutputPath>$(SolutionDir)\build\[vorp]\vorp_core</OutputPath>
+    <AssemblyName>vorpcharacter_sv.net</AssemblyName>
+    <OutputPath>$(SolutionDir)\build\[vorp]\vorp_character</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
