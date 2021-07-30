@@ -65,8 +65,7 @@ namespace vorpcharacter_sv
         private void SpawnUniqueCharacter(int source)
         {
             dynamic CorePlayerCharacters = CORE.getUser(source).getUserCharacters;
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            Player p = Players[source];
             Dictionary<string, dynamic> auxcharacter;
             List<Dictionary<string, dynamic>> UserCharacters = new List<Dictionary<string, dynamic>>();
             foreach (dynamic character in CorePlayerCharacters)
@@ -166,8 +165,7 @@ namespace vorpcharacter_sv
 
         private void CreateNewCharacter(int source)
         {
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            Player p = Players[source];
             p.TriggerEvent("vorpcharacter:createCharacter");
         }
 
@@ -192,16 +190,14 @@ namespace vorpcharacter_sv
                 };
                 UserCharacters.Add(auxcharacter);
             }
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            
+            Player p = Players[source];
             p.TriggerEvent("vorpcharacter:selectCharacter", UserCharacters);
         }
 
         private void setPlayerCompChange(int source, string compsValue)
         {
-
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            Player p = Players[source];
 
             if (p == null)
             {
@@ -237,9 +233,7 @@ namespace vorpcharacter_sv
 
         private void setPlayerSkinChange(int source, string compsValue)
         {
-
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            Player p = Players[source];
 
             if (p == null)
             {
@@ -275,9 +269,7 @@ namespace vorpcharacter_sv
 
         private void getPlayerComps(int source, dynamic cb)
         {
-
-            PlayerList pl = new PlayerList();
-            Player p = pl[source];
+            Player p = Players[source];
 
             if (p == null)
             {
