@@ -1,28 +1,25 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl
 {
-    class SelectCharacter : BaseScript
+    internal class SelectCharacter : BaseScript
     {
+        private static int ppid;
+        private static int mainCamera = -1;
+        private static bool isInCharacterSelector;
+        private static bool swappingChar = true;
         private int CreatePrompt = -1;
         private int DeletePrompt = -1;
+        private dynamic myChars;
 
-        private int selectedChar = 0;
-
-        private static int ppid = 0;
-        private static int mainCamera = -1;
-        dynamic myChars = null;
-        private static bool isInCharacterSelector = false;
-        private int tagId = 0;
-        private static bool swappingChar = true; 
+        private int selectedChar;
+        private int tagId;
 
         public SelectCharacter()
         {
@@ -40,13 +37,14 @@ namespace vorpcharacter_cl
                 string json_skin = myChar[0].skin;
                 string json_components = myChar[0].components;
                 string json_coords = myChar[0].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                var jPos = JObject.Parse(json_coords);
 
                 TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components);
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
-                bool isDead = false;
+                var playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(),
+                                               jPos["z"].ToObject<float>());
+                var isDead = false;
                 try
                 {
                     isDead = (bool)myChar[0].isDead;
@@ -55,7 +53,8 @@ namespace vorpcharacter_cl
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+
+                var heading = jPos["heading"].ToObject<float>();
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
                 await Delay(1000);
                 API.DoScreenFadeIn(1000);
@@ -69,9 +68,10 @@ namespace vorpcharacter_cl
 
         public async Task StartAnim()
         {
-            uint hashmodel = (uint)API.GetHashKey("mp_male");
+            var hashmodel = (uint)API.GetHashKey("mp_male");
             await Miscellanea.LoadModel(hashmodel);
-            int character_1 = API.CreatePed(hashmodel, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
+            var character_1 =
+                    API.CreatePed(hashmodel, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
             Function.Call((Hash)0x283978A15512B2FE, character_1, true);
             await Delay(1000);
             API.TaskGoToCoordAnyMeans(character_1, 1696.17f, 1508.474f, 147.85f, 0.5f, 0, false, 524419, -1f);
@@ -86,7 +86,8 @@ namespace vorpcharacter_cl
             //Left
             CreatePrompt = API.PromptRegisterBegin();
             Function.Call((Hash)0xB5352B7494A08258, CreatePrompt, 0x9959A6F0);
-            long str_previous = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", GetConfig.Langs["CreateNewChar"]);
+            var str_previous = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING",
+                                                   GetConfig.Langs["CreateNewChar"]);
             Function.Call((Hash)0x5DD02A8318420DD7, CreatePrompt, str_previous);
             API.PromptSetEnabled(CreatePrompt, 0);
             API.PromptSetVisible(CreatePrompt, 0);
@@ -96,13 +97,13 @@ namespace vorpcharacter_cl
             //Enter
             DeletePrompt = API.PromptRegisterBegin();
             Function.Call((Hash)0xB5352B7494A08258, DeletePrompt, 0x156F7119);
-            long str_select = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", GetConfig.Langs["DeleteChar"]);
+            var str_select = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING",
+                                                 GetConfig.Langs["DeleteChar"]);
             Function.Call((Hash)0x5DD02A8318420DD7, DeletePrompt, str_select);
             API.PromptSetEnabled(DeletePrompt, 0);
             API.PromptSetVisible(DeletePrompt, 0);
             API.PromptSetHoldMode(DeletePrompt, 1);
             API.PromptRegisterEnd(DeletePrompt);
-
         }
 
         public async Task StartSwapCharacter()
@@ -122,8 +123,11 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0x839BFD7D7E49FE09, tagId);
             API.DeletePed(ref ppid);
             await LoadNpcComps(json_skin, json_components);
-            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{GetConfig.Langs["MoneyTag"]}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
-            Function.Call((Hash)0xA0D7CE5F83259663, tagId, myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
+            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid,
+                                       $"{GetConfig.Langs["MoneyTag"]}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" +
+                                       myChars[selectedChar].money, false, false, "", 0);
+            Function.Call((Hash)0xA0D7CE5F83259663, tagId,
+                          myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
             Function.Call((Hash)0x5F57522BC1EB9D9D, tagId, 0);
             await Delay(500);
             API.TaskGoToCoordAnyMeans(ppid, 1696.17f, 1508.474f, 147.85f, 0.8f, 0, false, 524419, -1f);
@@ -136,10 +140,8 @@ namespace vorpcharacter_cl
             swappingChar = false;
         }
 
-
         public async void LoadCharacters(dynamic myCharacters)
         {
-
             RegisterPrompts();
 
             isInCharacterSelector = true;
@@ -149,10 +151,11 @@ namespace vorpcharacter_cl
             API.SetClockTime(12, 00, 00);
 
             API.SetEntityCoords(API.PlayerPedId(), 1687.03f, 1507.06f, 145.60f, false, false, false, false);
-            
+
             myChars = myCharacters;
 
-            mainCamera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 1693.301f, 1507.959f, 148.84f, -13.82f, 0f, -84.67f, 50.00f, false, 0);
+            mainCamera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 1693.301f, 1507.959f, 148.84f, -13.82f, 0f,
+                                                 -84.67f, 50.00f, false, 0);
 
             API.SetCamActive(mainCamera, true);
 
@@ -168,7 +171,8 @@ namespace vorpcharacter_cl
             while (isInCharacterSelector)
             {
                 API.DrawLightWithRange(1696.17f, 1508.474f, 147.85f, 255, 255, 255, 8.0f, 250.0f);
-                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressSelectInfo"], 0.5f, 0.90f, 0.75f, 0.70f, 255, 255, 255, 255, true, false);
+                await Miscellanea.DrawTxt(GetConfig.Langs["PressSelectInfo"], 0.5f, 0.90f, 0.75f, 0.70f, 255, 255,
+                                          255, 255, true, false);
                 await Delay(0);
             }
         }
@@ -189,7 +193,7 @@ namespace vorpcharacter_cl
                 string json_skin = myChars[selectedChar].skin;
                 string json_components = myChars[selectedChar].components;
                 string json_coords = myChars[selectedChar].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                var jPos = JObject.Parse(json_coords);
 
                 TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components);
                 API.DoScreenFadeOut(1000);
@@ -197,8 +201,9 @@ namespace vorpcharacter_cl
                 API.SetCamActive(mainCamera, false);
                 API.DestroyCam(mainCamera, true);
                 API.RenderScriptCams(true, true, 1000, true, true, 0);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
-                bool isDead = false;
+                var playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(),
+                                               jPos["z"].ToObject<float>());
+                var isDead = false;
                 try
                 {
                     isDead = (bool)myChars[selectedChar].isDead;
@@ -207,7 +212,8 @@ namespace vorpcharacter_cl
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+
+                var heading = jPos["heading"].ToObject<float>();
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
                 await Delay(1000);
                 API.DoScreenFadeIn(1000);
@@ -233,6 +239,7 @@ namespace vorpcharacter_cl
                     {
                         selectedChar += 1;
                     }
+
                     await StartSwapCharacter();
                 }
 
@@ -246,6 +253,7 @@ namespace vorpcharacter_cl
                     {
                         selectedChar -= 1;
                     }
+
                     await StartSwapCharacter();
                 }
 
@@ -292,7 +300,8 @@ namespace vorpcharacter_cl
                     {
                         myChars.RemoveAt(selectedChar);
 
-                        Function.Call((Hash)0x7D6F58F69DA92530, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
+                        Function.Call((Hash)0x7D6F58F69DA92530, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false,
+                                      true);
 
                         if (selectedChar == 0)
                         {
@@ -309,36 +318,35 @@ namespace vorpcharacter_cl
 
                 await Delay(0);
             }
-            
         }
 
         public async Task LoadNpcComps(string skin_json, string cloths_json)
         {
-            JObject jskin = JObject.Parse(skin_json);
-            JObject jcomp = JObject.Parse(cloths_json);
+            var jskin = JObject.Parse(skin_json);
+            var jcomp = JObject.Parse(cloths_json);
 
-            Dictionary<string, string> skin = new Dictionary<string, string>();
+            var skin = new Dictionary<string, string>();
 
             foreach (var s in jskin)
             {
                 skin[s.Key] = s.Value.ToString();
             }
 
-            Dictionary<string, uint> cloths = new Dictionary<string, uint>();
+            var cloths = new Dictionary<string, uint>();
 
             foreach (var s in jcomp)
             {
                 cloths[s.Key] = LoadPlayer.ConvertValue(s.Value.ToString());
             }
 
-            uint model_hash = (uint)API.GetHashKey(skin["sex"]);
-            await Utils.Miscellanea.LoadModel(model_hash);
+            var model_hash = (uint)API.GetHashKey(skin["sex"]);
+            await Miscellanea.LoadModel(model_hash);
             ppid = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
             CreateCharacter.ApplyDefaultSkinCanaryEdition(ppid);
             await Delay(200);
 
             //PreLoad TextureFace
-            if (skin["sex"].ToString().Equals("mp_male"))
+            if (skin["sex"].Equals("mp_male"))
             {
                 CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
                 CreateCharacter.texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
@@ -527,17 +535,14 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
             await Delay(100);
 
-
             Function.Call((Hash)0x1902C4CFCC5BE57C, ppid, LoadPlayer.ConvertValue(skin["Body"]));
             //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
             await Delay(100);
-
 
             Function.Call((Hash)0x1902C4CFCC5BE57C, ppid, LoadPlayer.ConvertValue(skin["Waist"]));
 
             Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
             await Delay(500);
-
 
             SetPlayerComponent(skin["sex"], 0x9925C067, "Hat", cloths);
             SetPlayerComponent(skin["sex"], 0x5E47CA6, "EyeWear", cloths);
@@ -562,6 +567,7 @@ namespace vorpcharacter_cl
             {
                 SetPlayerComponent(skin["sex"], 0x1D4C528A, "Pant", cloths);
             }
+
             SetPlayerComponent(skin["sex"], 0xA0E3AB7F, "Skirt", cloths);
             SetPlayerComponent(skin["sex"], 0x3107499B, "Chap", cloths);
             SetPlayerComponent(skin["sex"], 0x777EC6EF, "Boots", cloths);
@@ -572,7 +578,6 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x79D7DF96, "Accessories", cloths);
             SetPlayerComponent(skin["sex"], 0x94504D26, "Satchels", cloths);
             SetPlayerComponent(skin["sex"], 0xF1542D11, "GunbeltAccs", cloths);
-
 
             Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false); // this fix Hair not appears
@@ -595,10 +600,10 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0x59BD177A1A48600A, ppid, 0xF8016BCA);
             Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["Beard"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-
         }
 
-        public static void SetPlayerComponent(string model, uint category, string component, Dictionary<string, uint> cloths)
+        public static void SetPlayerComponent(string model, uint category, string component,
+                                              Dictionary<string, uint> cloths)
         {
             if (model == "mp_male")
             {
@@ -619,19 +624,18 @@ namespace vorpcharacter_cl
 
         public static async Task DrawTxt3D(float x, float y, float z, string text)
         {
-            float _x = 0.0F;
-            float _y = 0.0F;
+            var _x = 0.0F;
+            var _y = 0.0F;
             //Debug.WriteLine(position.X.ToString());
             API.GetScreenCoordFromWorldCoord(x, y, z, ref _x, ref _y);
             API.SetTextScale(0.35F, 0.35F);
             API.SetTextFontForCurrentCommand(1);
             API.SetTextColor(255, 255, 255, 215);
-            long str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
+            var str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
             Function.Call((Hash)0xBE5261939FBECB8C, 1);
             Function.Call((Hash)0xD79334A4BB99BAD1, str, _x, _y);
             //float factor = text.Length / 150.0F;
             //Function.Call((Hash)0xC9884ECADE94CB34, "generic_textures", "hud_menu_4a", _x, _y + 0.0125F, 0.015F + factor, 0.03F, 0.1F, 100, 1, 1, 190, 0);
         }
-
     }
 }

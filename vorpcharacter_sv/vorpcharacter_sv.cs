@@ -1,9 +1,9 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using System.Collections.Generic;
+using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 
 namespace vorpcharacter_sv
 {
@@ -23,9 +23,10 @@ namespace vorpcharacter_sv
             EventHandlers["vorp_SpawnUniqueCharacter"] += new Action<int>(SpawnUniqueCharacter);
             //Event for save the new character
             EventHandlers["vorp_SaveNewCharacter"] += new Action<Player, dynamic, dynamic, string>(SaveNewCharacter);
-            EventHandlers["vorp_updateexisting"] += new Action<Player, dynamic, dynamic, string,dynamic,dynamic>(SaveNewCharacter2);
+            EventHandlers["vorp_updateexisting"] +=
+                    new Action<Player, dynamic, dynamic, string, dynamic, dynamic>(SaveNewCharacter2);
             //Event for delete the character
-            EventHandlers["vorp_DeleteCharacter"] += new Action<Player,int>(DeleteCharacter);
+            EventHandlers["vorp_DeleteCharacter"] += new Action<Player, int>(DeleteCharacter);
 
             EventHandlers["vorp_CharSelectedCharacter"] += new Action<Player, int>(SelectCharacter);
 
@@ -35,20 +36,22 @@ namespace vorpcharacter_sv
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
 
             //GetCore Event
-            TriggerEvent("getCore",new Action<dynamic>((dic) =>
+            TriggerEvent("getCore", new Action<dynamic>(dic =>
             {
                 CORE = dic;
-                MaxCharacters = (int) CORE.maxCharacters;
-                CORE.addRpcCallback("vorp_characters:getMaxCharacters", new Action<int, CallbackDelegate, dynamic>((source,cb,args) => {
-                    cb(MaxCharacters);
-                }));
+                MaxCharacters = (int)CORE.maxCharacters;
+                CORE.addRpcCallback("vorp_characters:getMaxCharacters",
+                                    new Action<int, CallbackDelegate, dynamic>((source, cb, args) =>
+                                    {
+                                        cb(MaxCharacters);
+                                    }));
             }));
 
             API.RegisterCommand("createcharacter", new Action<int, List<object>, string>((source, args, rawCommand) =>
             {
                 if (source > 0) // it's a player.
                 {
-                    dynamic User = CORE.getUser(source);
+                    var User = CORE.getUser(source);
                     if (User.getGroup == "admin")
                     {
                         CreateNewCharacter(source);
@@ -59,105 +62,107 @@ namespace vorpcharacter_sv
                     Debug.WriteLine("This command was executed by the server console, Please use in game.");
                 }
             }), false);
-
         }
 
         private void SpawnUniqueCharacter(int source)
         {
-            dynamic CorePlayerCharacters = CORE.getUser(source).getUserCharacters;
-            Player p = Players[source];
+            var CorePlayerCharacters = CORE.getUser(source).getUserCharacters;
+            var p = Players[source];
             Dictionary<string, dynamic> auxcharacter;
-            List<Dictionary<string, dynamic>> UserCharacters = new List<Dictionary<string, dynamic>>();
-            foreach (dynamic character in CorePlayerCharacters)
+            var UserCharacters = new List<Dictionary<string, dynamic>>();
+            foreach (var character in CorePlayerCharacters)
             {
                 auxcharacter = new Dictionary<string, dynamic>
                 {
-                    ["charIdentifier"] = character.charIdentifier,
-                    ["money"] = character.money,
-                    ["gold"] = character.gold,
-                    ["firstname"] = character.firstname,
-                    ["lastname"] = character.lastname,
-                    ["skin"] = character.skin,
-                    ["components"] = character.comps,
-                    ["coords"] = character.coords,
-                    ["isDead"] = character.isdead
+                        ["charIdentifier"] = character.charIdentifier,
+                        ["money"] = character.money,
+                        ["gold"] = character.gold,
+                        ["firstname"] = character.firstname,
+                        ["lastname"] = character.lastname,
+                        ["skin"] = character.skin,
+                        ["components"] = character.comps,
+                        ["coords"] = character.coords,
+                        ["isDead"] = character.isdead
                 };
                 UserCharacters.Add(auxcharacter);
             }
+
             p.TriggerEvent("vorpcharacter:spawnUniqueCharacter", UserCharacters);
         }
 
-        private void SelectCharacter([FromSource]Player source, int charid)
+        private void SelectCharacter([FromSource] Player source, int charid)
         {
-            dynamic CoreUser = CORE.getUser(int.Parse(source.Handle));
-            if(charid != null)
+            var CoreUser = CORE.getUser(int.Parse(source.Handle));
+            if (charid != null)
             {
                 CoreUser.setUsedCharacter(charid);
             }
         }
 
-        private void DeleteCharacter([FromSource]Player source,int charid)
+        private void DeleteCharacter([FromSource] Player source, int charid)
         {
-            dynamic CoreUser = CORE.getUser(int.Parse(source.Handle));
+            var CoreUser = CORE.getUser(int.Parse(source.Handle));
             CoreUser.removeCharacter(charid);
         }
-        
+
         private async void SaveNewCharacter([FromSource] Player source, dynamic skin, dynamic components, string name)
         {
-            string sid = ("steam:" + source.Identifiers["steam"]);
+            var sid = "steam:" + source.Identifiers["steam"];
 
-            string[] divider = name.Split(' ');
+            var divider = name.Split(' ');
 
-            string firstname = divider[0];
-            string lastname = divider[1];
+            var firstname = divider[0];
+            var lastname = divider[1];
             string skinPlayer = JsonConvert.SerializeObject(skin);
             string compsPlayer = JsonConvert.SerializeObject(components);
 
-            dynamic CorePlayer = CORE.getUser(int.Parse(source.Handle));
+            var CorePlayer = CORE.getUser(int.Parse(source.Handle));
             try
             {
                 CorePlayer.addCharacter(firstname, lastname, skinPlayer, compsPlayer);
-                Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
-                Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
+                var scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
+                var sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
                 source.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
                 await Delay(2000);
                 source.TriggerEvent("vorp_NewCharacter");
                 TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
         }
 
-        private async void SaveNewCharacter2([FromSource] Player source, dynamic skin, dynamic components, string name, dynamic charidx, dynamic charx)
+        private async void SaveNewCharacter2([FromSource] Player source, dynamic skin, dynamic components, string name,
+                                             dynamic charidx, dynamic charx)
         {
-            string sid = ("steam:" + source.Identifiers["steam"]);
+            var sid = "steam:" + source.Identifiers["steam"];
 
-            string[] divider = name.Split(' ');
+            var divider = name.Split(' ');
 
-            string firstname = divider[0];
-            string lastname = divider[1];
+            var firstname = divider[0];
+            var lastname = divider[1];
             string skinPlayer = JsonConvert.SerializeObject(skin);
             string compsPlayer = JsonConvert.SerializeObject(components);
 
-            dynamic CorePlayer = CORE.getUser(int.Parse(source.Handle));
-            dynamic UserCharacter = charidx;
-            
+            var CorePlayer = CORE.getUser(int.Parse(source.Handle));
+            var UserCharacter = charidx;
+
             try
             {
-                Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
-                Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
+                var scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
+                var sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
                 //charx.setFirstname(firstname.ToString());
                 //charx.setLastname(lastname.ToString());
-                Exports["ghmattimysql"].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname,lastname,skinPlayer,compsPlayer, sid,UserCharacter });
+                Exports["ghmattimysql"]
+                        .execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ",
+                                 new object[] { firstname, lastname, skinPlayer, compsPlayer, sid, UserCharacter });
                 source.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
                 await Delay(2000);
                 //source.TriggerEvent("vorp_NewCharacter");
                 //TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
-            
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
@@ -165,55 +170,55 @@ namespace vorpcharacter_sv
 
         private void CreateNewCharacter(int source)
         {
-            Player p = Players[source];
+            var p = Players[source];
             p.TriggerEvent("vorpcharacter:createCharacter");
         }
 
         private void GoToSelectionMenu(int source)
         {
-            dynamic CorePlayerCharacters = CORE.getUser(source).getUserCharacters;
+            var CorePlayerCharacters = CORE.getUser(source).getUserCharacters;
             Dictionary<string, dynamic> auxcharacter;
-            List<Dictionary<string, dynamic>> UserCharacters = new List<Dictionary<string, dynamic>>();
-            foreach (dynamic character in CorePlayerCharacters)
+            var UserCharacters = new List<Dictionary<string, dynamic>>();
+            foreach (var character in CorePlayerCharacters)
             {
                 auxcharacter = new Dictionary<string, dynamic>
                 {
-                    ["charIdentifier"] = character.charIdentifier,
-                    ["money"] = character.money,
-                    ["gold"] = character.gold,
-                    ["firstname"] = character.firstname,
-                    ["lastname"] = character.lastname,
-                    ["skin"] = character.skin,
-                    ["components"] = character.comps,
-                    ["coords"] = character.coords,
-                    ["isDead"] = character.isdead
+                        ["charIdentifier"] = character.charIdentifier,
+                        ["money"] = character.money,
+                        ["gold"] = character.gold,
+                        ["firstname"] = character.firstname,
+                        ["lastname"] = character.lastname,
+                        ["skin"] = character.skin,
+                        ["components"] = character.comps,
+                        ["coords"] = character.coords,
+                        ["isDead"] = character.isdead
                 };
                 UserCharacters.Add(auxcharacter);
             }
-            
-            Player p = Players[source];
+
+            var p = Players[source];
             p.TriggerEvent("vorpcharacter:selectCharacter", UserCharacters);
         }
 
         private void setPlayerCompChange(int source, string compsValue)
         {
-            Player p = Players[source];
+            var p = Players[source];
 
             if (p == null)
             {
                 return;
             }
 
-            dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
+            var UserCharacter = CORE.getUser(source).getUsedCharacter;
 
-            string sid = "steam:" + p.Identifiers["steam"];
-        
+            var sid = "steam:" + p.Identifiers["steam"];
+
             string comp_string = UserCharacter.comps;
             string s_skin = UserCharacter.skin;
 
-            JObject comp = JObject.Parse(comp_string);
+            var comp = JObject.Parse(comp_string);
 
-            JObject newcomps = JObject.Parse(compsValue);
+            var newcomps = JObject.Parse(compsValue);
 
             foreach (var nc in newcomps)
             {
@@ -223,33 +228,33 @@ namespace vorpcharacter_sv
                 }
             }
 
-            UserCharacter.updateComps(compsValue.ToString());
+            UserCharacter.updateComps(compsValue);
 
-            Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(comp.ToString());
-            Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_skin);
+            var scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(comp.ToString());
+            var sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_skin);
 
             p.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
         }
 
         private void setPlayerSkinChange(int source, string compsValue)
         {
-            Player p = Players[source];
+            var p = Players[source];
 
             if (p == null)
             {
                 return;
             }
 
-            dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
+            var UserCharacter = CORE.getUser(source).getUsedCharacter;
 
-            string sid = "steam:" + p.Identifiers["steam"];
-        
+            var sid = "steam:" + p.Identifiers["steam"];
+
             string skin_string = UserCharacter.skin;
             string s_body = UserCharacter.comps;
 
-            JObject skin = JObject.Parse(skin_string);
+            var skin = JObject.Parse(skin_string);
 
-            JObject newcomps = JObject.Parse(compsValue);
+            var newcomps = JObject.Parse(compsValue);
 
             foreach (var nc in newcomps)
             {
@@ -261,15 +266,15 @@ namespace vorpcharacter_sv
 
             UserCharacter.updateSkin(skin.ToString());
 
-            Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skin.ToString());
-            Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
+            var sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skin.ToString());
+            var scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
 
             p.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
         }
 
         private void getPlayerComps(int source, dynamic cb)
         {
-            Player p = Players[source];
+            var p = Players[source];
 
             if (p == null)
             {
@@ -277,10 +282,10 @@ namespace vorpcharacter_sv
                 return;
             }
 
-            dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
-            string sid = "steam:" + p.Identifiers["steam"];
-           
-            Dictionary<string, string> comp = new Dictionary<string, string>();
+            var UserCharacter = CORE.getUser(source).getUsedCharacter;
+            var sid = "steam:" + p.Identifiers["steam"];
+
+            var comp = new Dictionary<string, string>();
 
             comp.Add("cloths", UserCharacter.comps);
             comp.Add("skins", UserCharacter.skin);
@@ -290,14 +295,13 @@ namespace vorpcharacter_sv
 
         private void getPlayerSkin([FromSource] Player source)
         {
-            dynamic UserCharacter = CORE.getUser(int.Parse(source.Handle)).getUsedCharacter;
+            var UserCharacter = CORE.getUser(int.Parse(source.Handle)).getUsedCharacter;
 
             string s_skin = UserCharacter.skin;
             string s_body = UserCharacter.comps;
 
-            Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_skin);
-            Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
-
+            var sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_skin);
+            var scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
 
             source.TriggerEvent("vorpcharacter:loadPlayerSkin", sskin, scloth);
         }
@@ -310,12 +314,10 @@ namespace vorpcharacter_sv
             {
                 return result;
             }
-            else
-            {
-                int interesante = int.Parse(s);
-                result = (uint)interesante;
-                return result;
-            }
+
+            var interesante = int.Parse(s);
+            result = (uint)interesante;
+            return result;
         }
     }
 }

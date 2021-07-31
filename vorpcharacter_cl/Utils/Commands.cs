@@ -1,14 +1,10 @@
-﻿using CitizenFX.Core;
+﻿using System;
+using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace vorpcharacter_cl.Utils
 {
-    class Commands : BaseScript
+    internal class Commands : BaseScript
     {
         public static void InitCommands()
         {
@@ -41,7 +37,6 @@ namespace vorpcharacter_cl.Utils
             API.RegisterCommand(GetConfig.Langs["CommandLoadouts"], new Action(Loadouts), false);
             API.RegisterCommand(GetConfig.Langs["CommandAccessories"], new Action(Accessories), false);
             API.RegisterCommand(GetConfig.Langs["CommandSatchels"], new Action(Satchels), false);
-
         }
 
         private static void Hat()
@@ -52,8 +47,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -65,8 +62,11 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -78,8 +78,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Mask"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Mask"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -91,8 +93,11 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -104,8 +109,11 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -117,8 +125,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -130,8 +140,11 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -143,8 +156,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -156,8 +171,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -169,8 +186,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -182,8 +201,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -195,8 +216,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -208,16 +231,20 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
             }
+
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0xF16A1D23))
             {
                 Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0xF16A1D23, 0);
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -229,11 +256,13 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
-
 
         private static void Belt()
         {
@@ -243,24 +272,32 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true,
+                              false);
             }
+
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0xB6B6122D))
             {
                 Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0xB6B6122D, 0);
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true,
+                              false);
             }
+
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0xA6D134C6))
             {
                 Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0xA6D134C6, 0);
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -272,8 +309,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -285,8 +324,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -298,8 +339,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -311,8 +354,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
@@ -324,10 +369,13 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Spurs()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x18729F39))
@@ -336,10 +384,13 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Spats()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x514ADCEA))
@@ -348,10 +399,13 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()), true, true, false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void GunbeltAccs()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0xF1542D11))
@@ -360,10 +414,14 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Gauntlets()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x91CE9B20))
@@ -372,10 +430,14 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Loadouts()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x83887E88))
@@ -384,10 +446,14 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Accessories()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x79D7DF96))
@@ -396,10 +462,14 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+
         private static void Satchels()
         {
             if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x94504D26))
@@ -408,14 +478,16 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                              LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true,
+                              false);
             }
+
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
 
         private static async void Undress()
         {
-
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x9925C067, 0);
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x5E47CA6, 0);
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x5FC29285, 0);
@@ -451,34 +523,57 @@ namespace vorpcharacter_cl.Utils
 
         private static async void Dress()
         {
-
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(),
+                          LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true,
+                          false);
             await Delay(100);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
-
     }
 }
